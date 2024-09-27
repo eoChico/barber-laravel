@@ -47,7 +47,6 @@
                 <h1 class="font-semibold text-gray-300">Serviços:</h1>
             </div>
             <ul class="grid w-full gap-6 " id="list-services">
-
             </ul>
             <div class="w-full mb-4 mt-4">
                 <select id="times" name="times"

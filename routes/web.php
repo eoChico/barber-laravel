@@ -42,6 +42,7 @@ Route::middleware('auth', 'client')->group(function () {
 Route::middleware('auth', 'barber')->group(function () {
     Route::get('/barber/dashboard', [BarberDashboardController::class, 'index'])->name('barber.dashboard');
     Route::get('/barber/services', [BarberDashboardController::class, 'services'])->name('barber.services');
+    Route::delete('/barber/schedule/{id}', [ClientDashboardController::class, 'destroy'])->name('barber.schedule.destroy');
     Route::post('/barber/services', [BarberDashboardController::class, 'store'])->name('barber.services.store');
 });
 require __DIR__ . '/auth.php';
