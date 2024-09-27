@@ -1,35 +1,104 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Agendamentos') }}
         </h2>
     </x-slot>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-gray-800 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("logado como client!") }}
-                  <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
-        <div class="flex justify-between items-center mb-4">
-            <button id="prevMonth" class="text-lg font-semibold text-gray-600">◀</button>
-            <div id="currentMonth" class="text-xl font-bold text-gray-700"></div>
-            <button id="nextMonth" class="text-lg font-semibold text-gray-600">▶</button>
-        </div>
-        <div class="grid grid-cols-7 gap-2 text-center">
-            <div class="font-bold text-gray-500">Sun</div>
-            <div class="font-bold text-gray-500">Mon</div>
-            <div class="font-bold text-gray-500">Tue</div>
-            <div class="font-bold text-gray-500">Wed</div>
-            <div class="font-bold text-gray-500">Thu</div>
-            <div class="font-bold text-gray-500">Fri</div>
-            <div class="font-bold text-gray-500">Sat</div>
-        </div>
-        <div id="calendarDays" class="grid grid-cols-7 gap-2 text-center mt-2">
-            <!-- Os dias serão gerados pelo JS -->
-        </div>
-    </div>                </div>
+                    @forelse ($appointments as $appointment)
+                    <div class="bg-gray-900 border-gray-300 rounded-lg p-4 mb-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-bold">{{ $appointment->barber->user->name ?? 'Barbeiro não
+                                encontrado' }}</h3>
+                        </div>
+                        <div class="mt-2">
+                            <p class="text-white">Data: {{
+                                \Carbon\Carbon::parse($appointment->appointment_date)->format('d/m/Y') }}</p>
+                            <p class="text-white">Horário de entrada: {{
+                                \Carbon\Carbon::parse($appointment->start_time)->format('H:i') }}</p>
+                            <p class="text-white">Horário de saída: {{
+                                \Carbon\Carbon::parse($appointment->end_time)->format('H:i') }}</p>
+                            <p class="text-white">Serviços:</p>
+                            <ul class="list-disc pl-5">
+                                @foreach ($appointment->services as $service)
+                                <li>{{ $service->name }} - R$ {{ number_format($service->value, 2, ',', '.') }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        <div class="flex justify-end mt-4">
+                            <!-- Botão para abrir o modal -->
+                            <button onclick="openModal('{{ $appointment->id }}')"
+                                class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600">Cancelar</button>
+                        </div>
+                    </div>
+                    @empty
+                    <div class=" text-white p-3 rounded-lg ">
+                        <h1 class="font-semibold text-xl mb-4">Parece que você ainda não tem nenhum agendamento marcado!
+                        </h1>
+
+                        <div>
+                            <a href="{{ route('client.schedule') }}"
+                                class="inline-block font-semibold px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300">
+                                Marque um agendamento
+                            </a>
+                        </div>
+
+                    </div>
+                    @endforelse
+                </div>
             </div>
         </div>
     </div>
-    <script src="../js/calendar.js"></script>
+
+    <!-- Modal -->
+    <div id="deleteModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen px-4 text-center">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <div
+                class="inline-block w-64 max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-gray-800 rounded-lg shadow-xl">
+                <h3 class="text-lg font-medium text-white" id="modal-title">Confirmar Cancelamento</h3>
+                <div class="mt-2">
+                    <p class="text-sm text-white">Você tem certeza que deseja cancelar este agendamento?</p>
+                </div>
+                <div class="mt-4">
+                    <form id="deleteForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                            class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700">
+                            Confirmar
+                        </button>
+                        <button type="button" onclick="closeModal()"
+                            class="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50">
+                            Cancelar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts para abrir/fechar o modal e atualizar o formulário com o ID correto -->
+    <script>
+        function openModal(appointmentId) {
+            // Atualiza a ação do formulário com o ID do agendamento
+            const form = document.getElementById('deleteForm');
+            form.action = `/client/schedule/${appointmentId}`;
+
+            // Mostra o modal
+            document.getElementById('deleteModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            // Esconde o modal
+            document.getElementById('deleteModal').classList.add('hidden');
+        }
+    </script>
 </x-app-layout>

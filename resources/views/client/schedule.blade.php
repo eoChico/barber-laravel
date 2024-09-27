@@ -1,4 +1,3 @@
-
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -36,25 +35,29 @@
         <!-- Seção de seleção de barbeiro e botão de registrar -->
         <div class="flex flex-wrap justify-center w-96 mt-6">
             <div class="w-full mb-4">
-                <select id="barbers" name="barbers" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select id="barbers" name="barbers"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option selected value="">Selecione o Barbeiro</option>
                     @foreach ($barbers as $barber)
-                        <option value="{{$barber->id}}">{{$barber->name}}</option>
+                    <option value="{{$barber->id}}">{{$barber->name}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="mb-4 w-full">
                 <h1 class="font-semibold text-gray-300">Serviços:</h1>
             </div>
-            <ul class="grid w-full gap-6 md:grid-cols-3" id="list-services">
-             </ul>
+            <ul class="grid w-full gap-6 " id="list-services">
+
+            </ul>
             <div class="w-full mb-4 mt-4">
-                <select id="times" name="times" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select id="times" name="times"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option selected value="">Selecione o Horário</option>
                 </select>
             </div>
-            <div class="w-full" >
-                <input type="submit" id="register" value="Registrar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
+            <div class="w-full">
+                <input type="submit" id="register" value="Registrar"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
             </div>
         </div>
     </div>
@@ -68,4 +71,3 @@
 
     <script src="../js/calendar.js"></script>
 </x-app-layout>
-

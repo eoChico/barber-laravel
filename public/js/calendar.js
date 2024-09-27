@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // Add event listener to the checkbox
             const checkbox = li.querySelector('input[type="checkbox"]');
             checkbox.addEventListener('change', function() {
-                const selectedServices = Array.from(document.querySelectorAll('#list-services input[type="checkbox"]:checked'))
+                const selectedServices = Array.from(document.querySelectorAll('#list-services input[type="checkbox"]'))
                     .map(checkbox => checkbox.value);
                 timeSelect.innerHTML = '<option value="">Selecione um horário</option>';
                 if (selectedDayDiv) {

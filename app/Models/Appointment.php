@@ -13,4 +13,12 @@ class Appointment extends Model
     {
         return $this->belongsToMany(Service::class, 'appointment_service', 'appointment_id', 'service_id');
     }
+    public function barber()
+    {
+        return $this->belongsTo(Barber::class, 'barber_id');
+    }
+    public function client()
+    {
+        return $this->belongsTo(User::class, 'client_id');
+    }
 }

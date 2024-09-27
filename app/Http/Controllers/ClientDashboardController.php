@@ -15,8 +15,10 @@ class ClientDashboardController extends Controller
 {
     public function index()
     {
+        $id = Auth::id();
+        $appointments = Appointment::with(['barber.user', 'services', 'client'])->where('appointment_date', '>=', now())->where('client_id', $id)->get();
         // Adicione a lógica para obter dados necessários para o dashboard do cliente
-        return view('client.dashboard');
+        return view('client.dashboard', compact('appointments'));
     }
     public function schedule()
     {
@@ -24,7 +26,12 @@ class ClientDashboardController extends Controller
 
         return view('client.schedule', compact('barbers'));
     }
-
+    public function destroy($id)
+    {
+        $appointment = Appointment::findOrFail($id);
+        $appointment->delete();
+        return redirect()->back()->with('success', 'Agendamento deletado com sucesso!');
+    }
     public function store(Request $request)
     {
         // Validar os dados recebidos

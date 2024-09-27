@@ -36,6 +36,7 @@ Route::middleware('auth', 'admin')->group(function () {
 Route::middleware('auth', 'client')->group(function () {
     Route::get('/client/dashboard', [ClientDashboardController::class, 'index'])->name('client.dashboard');
     Route::get('/client/schedule', [ClientDashboardController::class, 'schedule'])->name('client.schedule');
+    Route::delete('/client/schedule/{id}', [ClientDashboardController::class, 'destroy'])->name('client.schedule.destroy');
 });
 
 Route::middleware('auth', 'barber')->group(function () {
